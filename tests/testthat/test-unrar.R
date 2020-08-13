@@ -1,13 +1,17 @@
 context("extract rar file")
 
-example_rar_file <- function(){
+.example_file <- function(){
   rarfile_url <- "https://ndownloader.figshare.com/files/13366451"
   dest_file <- tempfile(fileext = ".rar")
   download.file(rarfile_url, dest_file, mode = 'wb')
   return(dest_file)
 }
 
-rarfile <- example_rar_file()
+rarfile <- .example_file()
+
+.count_files <- function(extract_files){
+  length(fs::dir_ls(unique(dirname(extract_files)), type = "any"))
+}
 
 test_that("test extraction of rar file in the folder of compressed file", {
 
@@ -27,43 +31,43 @@ test_that("test extraction of rar file in the folder of compressed file", {
     return(NULL)
   }
 
-  output <- length(fs::dir_ls(basename(output), type = "any"))
+  nfiles <- .count_files(output)
   # cleanup
   fs::dir_delete(rar_dir)
 
-  expect_gt(output, 0)
+  expect_gt(nfiles, 0)
 })
 
 test_that("test extraction of rar file in a arbitraty folder", {
   # rm -rf /tmp/R*
-  tmpd <- tempdir() # differs from example_rar_file() dir
-  output <- extract_rar(
-    rar_file = rarfile,
+  tmpd <- fs::path_temp() # differs from .example_file() dir
+  tmpd <- fs::path(tmpd, 'temp')
+  fs::dir_create(path = tmpd)
+  #dir.exists(tmpd)
+  output <- unrar(
+    file = rarfile,
     dest_dir = tmpd
   )
   if(!checkmate::test_os("linux")){
     expect_error(basename(output))
     return(NULL)
   }
-  output <- length(fs::dir_ls(basename(output), type = "any"))
-  if(checkmate::test_os("windows")){
-
-  }
-  expect_gt(output, 0)
+  nfiles <- .count_files(output)
+  expect_gt(nfiles, 0)
 })
 
 
 test_that("test try overwriting a pre-existent non empty folder", {
   tmpd <- tempdir()
-  extract_rar(
-    rar_file = rarfile,
+  unrar(
+    file = rarfile,
     dest_dir = tmpd,
     overwrite = TRUE
   )
 
   expect_error(
-    extract_rar(
-      rar_file = rarfile
+    unrar(
+      file = rarfile
     ),
       dest_dir = tmpd
   )
@@ -72,8 +76,8 @@ test_that("test try overwriting a pre-existent non empty folder", {
 
 test_that("test wrong output folder", {
   expect_error(
-    extract_rar(
-      rar_file = rarfile,
+    unrar(
+      file = rarfile,
       dest_dir = "/someplace"
     )
   )
@@ -81,8 +85,8 @@ test_that("test wrong output folder", {
 
 test_that("test folder instead of a file as input", {
   expect_error(
-    extract_rar(
-      rar_file = system.file(package = "lhmetools"),
+    unrar(
+      file = system.file(package = "lhmetools"),
       dest_dir = NULL
     )
   )
@@ -91,7 +95,7 @@ test_that("test folder instead of a file as input", {
 
 test_that("test for a inexistent file", {
   expect_error(
-    extract_rar(rar_file = "")
+    unrar(file = "")
   )
 })
 
