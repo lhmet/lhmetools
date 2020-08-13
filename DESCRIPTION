@@ -1,5 +1,6 @@
 Package: lhmetools
-Title: Collection Of R Functions For Hydrometeorological Data Analysis And Modelling
+Title: A Collection Of R Functions For Hydrometeorological Data
+    Analysis And Modelling
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Jônatan",
@@ -8,13 +9,17 @@ Authors@R:
            email = "lhmet@ufsm.br")
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
+URL: https://github.com/lhmet/lhmetools
+Depends: 
+    R (>= 4.0)
+SystemRequirements: unrar library version 5.61 or later
+Imports: 
+    assertthat,
+    checkmate,
+    fs
+Suggests: 
+    testthat
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Imports: 
-    checkmate,
-    assertthat,
-    fs
-Suggests: 
-    testthat
