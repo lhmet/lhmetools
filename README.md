@@ -10,7 +10,7 @@
 The goal of `{lhmetools}` is to bundle all generic functions frequently
 used in LHMET.
 
-# System requirements
+## System requirements
 
 To extract files from a `rar` archive we have created the function
 `unrar()`. This function allows extract files using `unrar`\[1\] tool
