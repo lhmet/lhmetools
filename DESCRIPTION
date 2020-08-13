@@ -16,3 +16,5 @@ Imports:
     checkmate,
     assertthat,
     fs
+Suggests: 
+    testthat
