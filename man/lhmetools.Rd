@@ -6,7 +6,7 @@
 \alias{lhmetools-package}
 \title{lhmetools: convenience functions used in LHMET}
 \description{
-The goal of \pkg{lhmetools} is to to bundle all generic functions frequently
+The goal of \pkg{lhmetools} is to bundle all generic functions frequently
 used in LHMET.
 }
 \section{lhmetools functions}{
