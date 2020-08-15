@@ -36,11 +36,11 @@ have \code{unrar} Linux library installed. You can install it with
 \examples{
 \dontrun{
 if (interactive()) {
- rarfile_url <- "https://ndownloader.figshare.com/files/13366451"
- dest_file <- tempfile(fileext = ".rar")
- download.file(rarfile_url, dest_file, mode = 'wb')
- extracted_files <- unrar(dest_file)
- extracted_files
+  rarfile_url <- "https://ndownloader.figshare.com/files/13366451"
+  dest_file <- tempfile(fileext = ".rar")
+  download.file(rarfile_url, dest_file, mode = "wb")
+  extracted_files <- unrar(dest_file)
+  extracted_files
 }
 }
 }
