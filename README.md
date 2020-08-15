@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![Travis build
+status](https://travis-ci.com/lhmet/lhmetools.svg?branch=master)](https://travis-ci.com/lhmet/lhmetools)
 <!-- badges: end -->
 
 The goal of `{lhmetools}` is to bundle all generic functions frequently
