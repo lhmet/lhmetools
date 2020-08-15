@@ -32,7 +32,7 @@ devtools::install_github("lhmet/lhmetools")
 
 ## List of funcions
 
-  - `unrar()`: extract files from a rar arquive.
+  - `unrar()`: extract files from a `rar` arquive.
 
 This is a basic example which shows you how to extract files:
 
