@@ -7,6 +7,8 @@
 
 [![Travis build
 status](https://travis-ci.com/lhmet/lhmetools.svg?branch=master)](https://travis-ci.com/lhmet/lhmetools)
+[![Codecov test
+coverage](https://codecov.io/gh/lhmet/lhmetools/branch/master/graph/badge.svg)](https://codecov.io/gh/lhmet/lhmetools?branch=master)
 <!-- badges: end -->
 
 The goal of `{lhmetools}` is to bundle all generic functions frequently
