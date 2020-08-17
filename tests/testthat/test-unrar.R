@@ -45,6 +45,13 @@ test_that("test extraction of rar file in the folder of compressed file", {
   }
 
   nfiles <- .count_files(output)
+
+  is_unrar_installed <- .check_unrar(quiet = TRUE)
+    if (checkmate::test_false(is_unrar_installed)) {
+      expect_equal(nfiles, 0)
+      return(NULL)
+    }
+
   # cleanup
   fs::dir_delete(rar_dir)
 
@@ -65,7 +72,15 @@ test_that("test extraction of rar file in a arbitraty folder", {
     expect_error(basename(output))
     return(NULL)
   }
+
   nfiles <- .count_files(output)
+
+  is_unrar_installed <- .check_unrar(quiet = TRUE)
+  if (checkmate::test_false(is_unrar_installed)) {
+    expect_equal(nfiles, 0)
+    return(NULL)
+  }
+
   expect_gt(nfiles, 0)
 })
 
