@@ -88,7 +88,7 @@ unrar <- function(
     if (checkmate::test_false(is_unrar_installed)) {
       message("This function require the unrar tool installed.")
       message("You can install it typing on terminal 'apt install unrar'.")
-      return(NULL)
+      return("")
     }
 
 
