@@ -19,8 +19,7 @@
 #' (TRUE, the default), or display them as they occur?
 #' @return character vector with files path
 #' @details This function has the side effect of extract files in a
-#' directory named (`dest_dir/basename(file)`). When `dest_dir` is not `NULL`
-#' this will be the place to store that directory.
+#' directory named (`dest_dir/basename(file)`) when `dest_dir` is not `NULL`.
 #' @export
 #' @note This function is a wrapper to call `unrar` command. It is required you
 #' have `unrar` Linux library installed. You can install it with

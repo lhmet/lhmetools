@@ -25,8 +25,7 @@ This function extract files from a \code{.rar} file
 }
 \details{
 This function has the side effect of extract files in a
-directory named (\code{dest_dir/basename(file)}). When \code{dest_dir} is not \code{NULL}
-this will be the place to store that directory.
+directory named (\code{dest_dir/basename(file)}) when \code{dest_dir} is not \code{NULL}.
 }
 \note{
 This function is a wrapper to call \code{unrar} command. It is required you
