@@ -9,8 +9,21 @@ context("extract rar file")
 
 rarfile <- .example_file()
 
-.count_files <- function(extract_files){
-  length(fs::dir_ls(unique(dirname(extract_files)), type = "any"))
+.count_files <- function(extract_files) {
+  # extract_files = ""
+  extract_files <- as.character(extract_files)
+  extract_dir <- unique(dirname(extract_files))
+  # checkmate::check_character(extract_dir)
+  # dir_list <- suppressWarnings(
+  #   fs::dir_ls(extract_dir,
+  #              type = "any",
+  #              fail = FALSE)
+  #   )
+  dir_list <- fs::dir_ls(extract_dir,
+      type = "any",
+      fail = FALSE
+    )
+  length(dir_list)
 }
 
 test_that("test extraction of rar file in the folder of compressed file", {

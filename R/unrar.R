@@ -110,5 +110,5 @@ unrar <- function(
   }
 
   message("This function works only on linux systems.")
-  return(NULL)
+  return("")
 }
