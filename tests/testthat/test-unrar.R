@@ -80,7 +80,6 @@ test_that("test extraction of rar file in a arbitraty folder", {
     expect_equal(nfiles, 0)
     return(NULL)
   }
-
   expect_gt(nfiles, 0)
 })
 
