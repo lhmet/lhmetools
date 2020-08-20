@@ -8,15 +8,14 @@
 #' @export
 #'
 #' @examples
-#' # simulated data
-
-#' # usage
-#' dates_comp <- complete_dates(
-#'   x = dates_miss,
-#'   group = c("id", "g"),
-#'   time_step = "months"
+#' if(TRUE){
+#'  dates_comp <- complete_dates(
+#'    x = dates_miss,
+#'    group = c("id", "g"),
+#'    time_step = "months"
 #'  )
 #' dates_comp
+#' }
 complete_dates <- function(x, group = "id", time_step = "days") {
 
   # x = dates_miss; group = c("id", "g"); time_step = "months"

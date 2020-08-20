@@ -34,7 +34,10 @@ devtools::install_github("lhmet/lhmetools")
 
 ## List of funcions
 
-  - `unrar()`: extract files from a `rar` arquive.
+  - `unrar()`: extract files from a `rar` archive.
+
+  - `complete_dates()`: Complete missing data combinations leaving
+    explicit missing observations.
 
 This is a basic example which shows you how to extract files:
 
@@ -45,6 +48,14 @@ rarfile_url <- "https://ndownloader.figshare.com/files/13366451"
 dest_file <- tempfile(fileext = ".rar")
 download.file(rarfile_url, dest_file, mode = 'wb')
 (extracted_files <- unrar(dest_file))
+```
+
+TO DO: example with `complete_dates()`
+
+``` r
+if(requireNamespace("microbenchmark", quietly = TRUE)){
+  # add comparison tidyr::complete and lhmetools::complete_dates
+}
 ```
 
 1.  It’s developed by [RARLAB](https://www.rarlab.com/download.htm) and
