@@ -16,7 +16,9 @@ SystemRequirements: unrar library version 5.61 or later
 Imports: 
     assertthat,
     checkmate,
-    fs
+    fs,
+    data.table,
+    tibble
 Suggests: 
     testthat,
     covr

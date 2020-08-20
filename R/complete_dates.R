@@ -11,13 +11,17 @@
 #' # simulated data
 
 #' # usage
-#' datc <- complete_dates(dat, group = c("id", "g"), time_step = "months")
-#' datc
+#' dates_comp <- complete_dates(
+#'   x = dates_miss,
+#'   group = c("id", "g"),
+#'   time_step = "months"
+#'  )
+#' dates_comp
 complete_dates <- function(x, group = "id", time_step = "days") {
 
-  # x = dat; group = c("id", "g"); time_step = "months"
-  assertive::is_subset("date", names(x))
-  assertive::is_subset(group, names(x))
+  # x = dates_miss; group = c("id", "g"); time_step = "months"
+  checkmate::assert_choice("date", names(x))
+  checkmate::check_subset(group, names(x))
 
   # TEST DATA
   # x <- import_qnat(complete = FALSE); group = "id"; time_step = "days"
@@ -33,7 +37,8 @@ complete_dates <- function(x, group = "id", time_step = "days") {
   xDT <- unique(xDT)
 
   # number of distinct values in the group variable
-  groups_u <- unique(xDT[, ..group])
+  #groups_u <- unique(xDT[, ..group])
+  groups_u <- unique(xDT[, group, with = FALSE])
   data.table::setkeyv(groups_u[, k := 1], c(data.table::key(groups_u), "k"))
 
   # time span
@@ -56,7 +61,7 @@ complete_dates <- function(x, group = "id", time_step = "days") {
     allow.cartesian = TRUE
   )[, k := NULL]
 
-  xDT_c <- merge.data.table(
+  xDT_c <- data.table::merge.data.table(
     xDT_c,
     xDT,
     all = TRUE,
