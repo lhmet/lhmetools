@@ -37,7 +37,7 @@ devtools::install_github("lhmet/lhmetools")
   - `unrar()`: extract files from a `rar` archive.
 
   - `complete_dates()`: Complete missing data combinations leaving
-    explicit missing observations.
+    explicit missing dates.
 
 This is a basic example which shows you how to extract files:
 

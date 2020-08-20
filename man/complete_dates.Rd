@@ -20,12 +20,12 @@ tibble with a regular and constant time step
 Complete a data frame with missing combination of variables (date and group)
 }
 \examples{
-# simulated data
-# usage
-dates_comp <- complete_dates(
-  x = dates_miss,
-  group = c("id", "g"),
-  time_step = "months"
+if(TRUE){
+ dates_comp <- complete_dates(
+   x = dates_miss,
+   group = c("id", "g"),
+   time_step = "months"
  )
 dates_comp
+}
 }
