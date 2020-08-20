@@ -50,7 +50,13 @@ download.file(rarfile_url, dest_file, mode = 'wb')
 (extracted_files <- unrar(dest_file))
 ```
 
-TO DO: example with `complete_dates()`
+# TO DOs
+
+  - tests for `complete dates`
+
+  - example with `complete_dates()` in readme
+
+<!-- end list -->
 
 ``` r
 if(requireNamespace("microbenchmark", quietly = TRUE)){
