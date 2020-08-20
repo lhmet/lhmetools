@@ -9,9 +9,9 @@
 
 #' Extract files from `rar` archives (only works on Linux)
 #'
-#' This function extract files from a \code{.rar} file
+#' This function extract files from a `.rar` file
 #'
-#' @param file a file path to a \code{file.rar}
+#' @param file a file path to a `file.rar`
 #' @param dest_dir path to extract files. Defaults to `dirname(file)`.
 #' @param overwrite logical, use `overwrite = TRUE` to overwrite
 #' existing files.
