@@ -50,7 +50,7 @@ download.file(rarfile_url, dest_file, mode = 'wb')
 (extracted_files <- unrar(dest_file))
 ```
 
-# TO DOs
+# TO DO
 
   - tests for `complete dates`
 
