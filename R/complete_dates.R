@@ -20,7 +20,7 @@ complete_dates <- function(x, group = "id", time_step = "days") {
 
   # x = dates_miss; group = c("id", "g"); time_step = "months"
   checkmate::assert_choice("date", names(x))
-  checkmate::check_subset(group, names(x))
+  checkmate::assert_subset(group, names(x))
 
   # TEST DATA
   # x <- import_qnat(complete = FALSE); group = "id"; time_step = "days"
