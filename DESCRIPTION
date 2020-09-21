@@ -1,7 +1,7 @@
 Package: lhmetools
 Title: A Collection Of R Functions For Hydrometeorological Data
     Analysis And Modelling
-Version: 0.0.2
+Version: 0.1.1
 Authors@R: 
     person(given = "Jônatan",
            family = "Tatsch",
