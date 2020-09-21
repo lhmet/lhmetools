@@ -7,6 +7,44 @@
   installed_unrar == 0
 }
 
+# tries to find 7 zip exe
+.check_7Zip <- function() {
+  executableName <- "C:\\Program Files (x86)\\7-Zip\\7z.exe"
+
+  if (file.exists(executableName)) {
+    return(executableName)
+  }
+
+  # other executable file names and ideas go here ...
+  stop("failed to find 7zip. \n",
+       "you can install it using installr::")
+}
+
+.run_process <- function(executable, arguments, quiet) {
+
+  cmd <- paste(sep = "", "\"", executable, "\" ", arguments)
+
+  #print(cmd)
+
+  exit_code <- system(cmd,
+    intern = FALSE,
+    ignore.stdout = quiet,
+    ignore.stderr = FALSE,
+    wait = TRUE,
+    input = NULL,
+    show.output.on.console = TRUE,
+    invisible = FALSE
+  )
+
+  if (exit_code != 0) {
+    message("This function require the 7-zip tool installed.")
+    message("You can install it typing on terminal 'installr::install.7zip'.")
+    stop("Process returned error")
+  }
+  return(exit_code)
+}
+
+
 #' Extract files from `rar` archives (only works on Linux)
 #'
 #' This function extract files from a `.rar` file
@@ -108,6 +146,36 @@ unrar <- function(
     return(extracted_files)
   }
 
-  message("This function works only on linux systems.")
+  if (checkmate::test_os("windows")) {
+    z7path <- .check_7Zip()
+
+
+    if(overwrite){
+      arguments <- paste(
+        sep = "",
+        "e ",
+        "\"", file, "\" ",
+        "\"-o", dir_extract_rar, "\" ",
+        #""
+        "\"-y"
+      )
+    } else {
+      arguments <- paste(
+        sep = "",
+        "e ",
+        "\"", file, "\" ",
+        "\"-o", dir_extract_rar, "\" ",
+        ""
+      )
+    }
+
+    out_call_7z <- .run_process(z7path, arguments, quiet)
+    # list of files
+    extracted_files <- fs::dir_ls(dir_extract_rar, type = "file", recurse = TRUE)
+    return(extracted_files)
+  }
+
+
+  message("This function works only on linux and windowns systems.")
   return("")
 }
