@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/lhmet/lhmetools/branch/master/graph/badge.svg)](https://codecov.io/gh/lhmet/lhmetools?branch=master)
 <!-- badges: end -->
 
-The goal of `{lhmetools}` is to bundle all generic functions frequently used in LHMET.
+The goal of **`{lhmetools}`** is to bundle all generic functions frequently used in LHMET.
 
 ## System requirements 
 
@@ -35,7 +35,7 @@ available in Linux and other Unix based operating systems.
 
 ## Installation
 
-You can install lhmetools from [GitHub](https://github.com/) with:
+You can install **`{lhmetools}`** from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")

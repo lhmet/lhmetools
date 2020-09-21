@@ -11,8 +11,8 @@ status](https://travis-ci.com/lhmet/lhmetools.svg?branch=master)](https://travis
 coverage](https://codecov.io/gh/lhmet/lhmetools/branch/master/graph/badge.svg)](https://codecov.io/gh/lhmet/lhmetools?branch=master)
 <!-- badges: end -->
 
-The goal of `{lhmetools}` is to bundle all generic functions frequently
-used in LHMET.
+The goal of **`{lhmetools}`** is to bundle all generic functions
+frequently used in LHMET.
 
 ## System requirements
 
@@ -25,7 +25,8 @@ distributions’ package manager.
 
 ## Installation
 
-You can install lhmetools from [GitHub](https://github.com/) with:
+You can install **`{lhmetools}`** from [GitHub](https://github.com/)
+with:
 
 ``` r
 # install.packages("devtools")
