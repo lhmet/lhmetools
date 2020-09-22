@@ -1,13 +1,24 @@
+#' Check if unrar is installed on linux
 .check_unrar <- function(quiet) {
   installed_unrar <- system(
     "which unrar",
     intern = FALSE,
     ignore.stdout = quiet
   )
-  installed_unrar == 0
+
+  is_unrar_installed <- installed_unrar == 0
+
+  if (checkmate::test_false(is_unrar_installed)) {
+    stop(
+      "This function require the unrar tool installed. \n",
+      "You can install it typing on terminal 'apt install unrar'."
+    )
+  }
+
+  TRUE
 }
 
-# tries to find 7 zip exe
+#' Check if  7-Zip is installed on windows
 .check_7Zip <- function() {
   executableName <- "C:\\Program Files (x86)\\7-Zip\\7z.exe"
 
@@ -16,15 +27,18 @@
   }
 
   # other executable file names and ideas go here ...
-  stop("failed to find 7zip. \n",
-       "you can install it using installr::")
+  stop(
+    "failed to find 7zip. \n",
+    "you can install it using installr::"
+  )
 }
 
+#' call system
 .run_process <- function(executable, arguments, quiet) {
+  cmd <- paste0("\"", executable, "\" ", arguments)
 
-  cmd <- paste(sep = "", "\"", executable, "\" ", arguments)
+  # print(cmd)
 
-  #print(cmd)
 
   exit_code <- system(cmd,
     intern = FALSE,
@@ -43,6 +57,82 @@
   }
   return(exit_code)
 }
+
+unrar_7zip <- function(file.rar, out.dir, overwrite, quiet = TRUE) {
+  # based on https://github.com/swish-climate-impact-assessment/awaptools/blob/master/R/ZipFunctions.R
+  z7path <- .check_7Zip()
+
+  args <- paste(
+    sep = "",
+    "e ",
+    "\"", file.rar, "\" ",
+    "\"-o", out.dir, "\" ",
+    ""
+  )
+
+  args_overwrite <- paste(
+    "e ",
+    "\"", file.rar, "\" ",
+    "\"-o", out.dir, "\" ",
+    # ""
+    "\"-y"
+  )
+
+  arguments <- ifelse(overwrite, args_overwrite, args)
+
+  out_call_7z <- .run_process(z7path, arguments, quiet)
+
+  # return extracted files
+  extracted_files <- fs::dir_ls(out.dir, type = "file", recurse = TRUE)
+  extracted_files
+}
+
+
+check_rar_file <- function(file.rar) {
+  file <- fs::path_real(file.rar)
+  # input checks
+
+  assertthat::assert_that(
+    assertthat::has_extension(file, "rar")
+  )
+
+  checkmate::assert_file_exists(file)
+}
+
+
+unrar_linux <- function(file.rar, out.dir, overwrite, quiet = TRUE) {
+  # file.rar = dest_file; out.dir = NULL; overwrite = TRUE; quiet = TRUE
+  .check_unrar(quiet)
+
+  cmd_extract <- paste0("unrar e ", file.rar, " ", out.dir)
+  cmd_overwrite <- paste0("unrar e -o+ ", file.rar, " ", out.dir)
+  cmd <- ifelse(overwrite, cmd_overwrite, cmd_extract)
+  out_call_unrar <- system(cmd, intern = FALSE, ignore.stdout = quiet)
+
+  # if there is a problem, call again to show the error
+  if (out_call_unrar != 0) {
+    # print output console
+    system(cmd, intern = TRUE)
+    stop("\n unrar process returned error \n")
+  }
+  # return extracted files
+  extracted_files <- fs::dir_ls(out.dir, type = "file", recurse = TRUE)
+  extracted_files
+}
+
+
+unrar_file <- function(file.rar, out.dir, overwrite, quiet = TRUE) {
+
+  if(!(checkmate::test_os("windows") | checkmate::test_os("linux"))){
+    stop("This function is only suported for linux and windows.")
+  }
+
+  if(checkmate::test_os("windows")){
+    unrar_7zip(file.rar, out.dir, overwrite, quiet)
+  }
+  unrar_linux(file.rar, out.dir, overwrite, quiet)
+}
+
 
 
 #' Extract files from `rar` archives (only works on Linux)
@@ -66,7 +156,7 @@
 #' \dontrun{
 #' if (interactive()) {
 #'   rarfile_url <- "https://ndownloader.figshare.com/files/13366451"
-#'   dest_file <- tempfile(fileext = ".rar")
+#'   dest_file <- file.path(tempdir(), paste0(basename(rarfile_url), ".rar"))
 #'   download.file(rarfile_url, dest_file, mode = "wb")
 #'   extracted_files <- unrar(dest_file)
 #'   extracted_files
@@ -79,103 +169,46 @@
 
 unrar <- function(
                   file,
-                  dest_dir = dirname(file),
+                  dest_dir = fs::path_ext_remove(file),
                   overwrite = FALSE,
                   quiet = TRUE) {
-  file <- fs::path_real(file)
+  # file <- dest_file; dest_dir <- "~/Downloads"; overwrite = TRUE; quiet = TRUE
+  # file <- dest_file; dest_dir <- fs::path_ext_remove(file); overwrite = TRUE; quiet = TRUE
+  check_rar_file(file)
 
-  # input checks
-  checkmate::assert_file_exists(file)
-  assertthat::assert_that(
-    assertthat::has_extension(file, "rar")
-  )
+  subdir2extract <- basename(fs::path_ext_remove(file))
 
-  # create dir to extract at base dir from rar file
-  dir_extract_rar <- fs::path_ext_remove(file)
 
-  if (!is.null(dest_dir)) {
-    dest_dir <- fs::path_real(dest_dir)
-    checkmate::assert_directory_exists(dest_dir)
-    dir_extract_rar <- fs::path(dest_dir, basename(dir_extract_rar))
-    # checkmate::assert_path_for_output(dir_extract_rar)
-  }
+  # se o diretorio já existe --------------------------------------------------
+  if(fs::dir_exists(dest_dir)){ # e.g. ~/Downloads
+    subdir2extract <- fs::path(dest_dir, subdir2extract)
+    if(!dir.exists(subdir2extract)) {
+      # cria
+      fs::dir_create(subdir2extract)
+      # extrai
+      out <- unrar_file(file, subdir2extract, overwrite, quiet)
+      return(out)
 
-  # build appropriate call to unrar
-  if (!fs::dir_exists(dir_extract_rar)) {
-    fs::dir_create(dir_extract_rar)
-    checkmate::assert_path_for_output(dir_extract_rar, overwrite = TRUE)
-    cmd <- paste0("unrar e ", file, " ", dir_extract_rar)
-  } else {
-    # check if exists files in pre-existent dir
-    if (length(dir(dir_extract_rar, all.files = TRUE)) > 0 && overwrite) {
-      cmd <- paste0("unrar e -o+ ", file, " ", dir_extract_rar)
     } else {
-      stop("There are files in the folder. Use overwrite = TRUE to
+      if(overwrite) {
+        out <- unrar_file(file, subdir2extract, overwrite, quiet)
+        return(out)
+      } else {
+        stop("There are files in the folder. Use overwrite = TRUE to
            overwrite existing files.")
+      }
     }
+
+
+  } else {
+  # se o diretorio não existir ()------------------------------------------------
+    # mas o dir um nível antes existir
+    checkmate::assert_directory_exists(fs::path_dir(dest_dir))
+    fs::dir_create(dest_dir)
+    out <- unrar_file(file, dest_dir, overwrite, quiet)
+    return(out)
   }
 
-  # decompress
-  if (checkmate::test_os("linux")) {
-    # capture.output(out_call_unrar <- system(cmd,intern = TRUE),file = "NUL")
-    # if(quiet){
-
-    # check unrar is available
-    is_unrar_installed <- .check_unrar(quiet)
-    if (checkmate::test_false(is_unrar_installed)) {
-      message("This function require the unrar tool installed.")
-      message("You can install it typing on terminal 'apt install unrar'.")
-      return("")
-    }
-
-
-    out_call_unrar <- system(cmd, intern = FALSE, ignore.stdout = quiet)
-
-    # } #else {
-    # out_call_unrar <- system(cmd, intern = FALSE)
-    # }
-
-    if (out_call_unrar != 0) {
-      # print output console
-      system(cmd, intern = TRUE)
-      stop("\n unrar process returned error \n")
-      # sudo apt install unrar
-    }
-    # list of files
-    extracted_files <- fs::dir_ls(dir_extract_rar, type = "file", recurse = TRUE)
-    return(extracted_files)
-  }
-
-  if (checkmate::test_os("windows")) {
-    z7path <- .check_7Zip()
-
-
-    if(overwrite){
-      arguments <- paste(
-        sep = "",
-        "e ",
-        "\"", file, "\" ",
-        "\"-o", dir_extract_rar, "\" ",
-        #""
-        "\"-y"
-      )
-    } else {
-      arguments <- paste(
-        sep = "",
-        "e ",
-        "\"", file, "\" ",
-        "\"-o", dir_extract_rar, "\" ",
-        ""
-      )
-    }
-
-    out_call_7z <- .run_process(z7path, arguments, quiet)
-    # list of files
-    extracted_files <- fs::dir_ls(dir_extract_rar, type = "file", recurse = TRUE)
-    return(extracted_files)
-  }
-
-
-  message("This function works only on linux and windowns systems.")
+  message("This is a dark hole")
   return("")
 }
