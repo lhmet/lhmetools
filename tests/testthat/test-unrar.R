@@ -1,9 +1,9 @@
 context("extract rar file")
 
-.example_file <- function(){
+.example_file <- function() {
   rarfile_url <- "https://ndownloader.figshare.com/files/13366451"
   dest_file <- tempfile(fileext = ".rar")
-  download.file(rarfile_url, dest_file, mode = 'wb')
+  download.file(rarfile_url, dest_file, mode = "wb")
   return(dest_file)
 }
 
@@ -20,9 +20,9 @@ rarfile <- .example_file()
   #              fail = FALSE)
   #   )
   dir_list <- fs::dir_ls(extract_dir,
-      type = "any",
-      fail = FALSE
-    )
+    type = "any",
+    fail = FALSE
+  )
   length(dir_list)
 }
 
@@ -30,27 +30,22 @@ test_that("test extraction of rar file in the folder of compressed file", {
 
   # delete dir resulting from previous extraction of rar file
   rar_dir <- fs::path_ext_remove(rarfile)
-  if(fs::dir_exists(rar_dir)){
+  if (fs::dir_exists(rar_dir)) {
     fs::dir_delete(rar_dir)
   }
 
   output <- unrar(
     rarfile,
-    dest_dir = NULL
+    dest_dir = rar_dir
   )
-
-  if(!checkmate::test_os("linux")){
-    expect_error(basename(output))
-    return(NULL)
-  }
 
   nfiles <- .count_files(output)
 
   is_unrar_installed <- .check_unrar(quiet = TRUE)
-    if (checkmate::test_false(is_unrar_installed)) {
-      expect_equal(nfiles, 0)
-      return(NULL)
-    }
+  if (checkmate::test_false(is_unrar_installed)) {
+    expect_equal(nfiles, 0)
+    return(NULL)
+  }
 
   # cleanup
   fs::dir_delete(rar_dir)
@@ -61,14 +56,14 @@ test_that("test extraction of rar file in the folder of compressed file", {
 test_that("test extraction of rar file in a arbitraty folder", {
   # rm -rf /tmp/R*
   tmpd <- fs::path_temp() # differs from .example_file() dir
-  tmpd <- fs::path(tmpd, 'temp')
+  tmpd <- fs::path(tmpd, "temp")
   fs::dir_create(path = tmpd)
-  #dir.exists(tmpd)
+  # dir.exists(tmpd)
   output <- unrar(
     file = rarfile,
     dest_dir = tmpd
   )
-  if(!checkmate::test_os("linux")){
+  if (!checkmate::test_os("linux")) {
     expect_error(basename(output))
     return(NULL)
   }
@@ -94,9 +89,9 @@ test_that("test try overwriting a pre-existent non empty folder", {
 
   expect_error(
     unrar(
-      file = rarfile
-    ),
+      file = rarfile,
       dest_dir = tmpd
+    )
   )
 })
 
@@ -125,5 +120,3 @@ test_that("test for a inexistent file", {
     unrar(file = "")
   )
 })
-
-
