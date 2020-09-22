@@ -123,14 +123,16 @@ unrar_linux <- function(file.rar, out.dir, overwrite, quiet = TRUE) {
 
 unrar_file <- function(file.rar, out.dir, overwrite, quiet = TRUE) {
 
-  if(!(checkmate::test_os("windows") | checkmate::test_os("linux"))){
-    stop("This function is only suported for linux and windows.")
+  if(checkmate::test_os("windows")){
+    return(unrar_7zip(file.rar, out.dir, overwrite, quiet))
   }
 
-  if(checkmate::test_os("windows")){
-    unrar_7zip(file.rar, out.dir, overwrite, quiet)
+  if(checkmate::test_os("linux")){
+    return(unrar_linux(file.rar, out.dir, overwrite, quiet))
   }
-  unrar_linux(file.rar, out.dir, overwrite, quiet)
+
+ stop("This function is only suported for linux and windows.")
+
 }
 
 
