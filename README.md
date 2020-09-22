@@ -27,7 +27,7 @@ Windows users should install the [7-zip](https://www.7-zip.org/), a free
 software that can be easily installed from R using
 `installr::install.7zip()`.
 
-    install.packages("installr")
+    install.packages("installr") # only for windows
     install.7zip()
 
 ## Installation
