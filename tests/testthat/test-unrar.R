@@ -63,10 +63,10 @@ test_that("test extraction of rar file in a arbitraty folder", {
     file = rarfile,
     dest_dir = tmpd
   )
-  if (!checkmate::test_os("linux")) {
-    expect_error(basename(output))
-    return(NULL)
-  }
+  # if (!checkmate::test_os("linux")) {
+  #   expect_error(basename(output))
+  #   return(NULL)
+  # }
 
   nfiles <- .count_files(output)
 
