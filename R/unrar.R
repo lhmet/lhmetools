@@ -157,6 +157,7 @@ unrar_file <- function(file.rar, out.dir, overwrite, quiet = TRUE) {
 #' if (interactive()) {
 #'   rarfile_url <- "https://ndownloader.figshare.com/files/13366451"
 #'   dest_file <- file.path(tempdir(), paste0(basename(rarfile_url), ".rar"))
+#'   #dest_file <- tempfile(fileext = ".rar")
 #'   download.file(rarfile_url, dest_file, mode = "wb")
 #'   extracted_files <- unrar(dest_file)
 #'   extracted_files

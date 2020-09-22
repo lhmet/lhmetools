@@ -4,7 +4,12 @@
 \alias{unrar}
 \title{Extract files from \code{rar} archives (only works on Linux)}
 \usage{
-unrar(file, dest_dir = dirname(file), overwrite = FALSE, quiet = TRUE)
+unrar(
+  file,
+  dest_dir = fs::path_ext_remove(file),
+  overwrite = FALSE,
+  quiet = TRUE
+)
 }
 \arguments{
 \item{file}{a file path to a \code{file.rar}}
@@ -36,7 +41,7 @@ have \code{unrar} Linux library installed. You can install it with
 \dontrun{
 if (interactive()) {
   rarfile_url <- "https://ndownloader.figshare.com/files/13366451"
-  dest_file <- tempfile(fileext = ".rar")
+  dest_file <- file.path(tempdir(), paste0(basename(rarfile_url), ".rar"))
   download.file(rarfile_url, dest_file, mode = "wb")
   extracted_files <- unrar(dest_file)
   extracted_files
