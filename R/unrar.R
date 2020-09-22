@@ -1,4 +1,4 @@
-#' Check if unrar is installed on linux
+# Check if unrar is installed on linux
 .check_unrar <- function(quiet) {
   installed_unrar <- system(
     "which unrar",
@@ -18,7 +18,7 @@
   TRUE
 }
 
-#' Check if  7-Zip is installed on windows
+# Check if  7-Zip is installed on windows
 .check_7Zip <- function() {
   executableName <- "C:\\Program Files (x86)\\7-Zip\\7z.exe"
 
@@ -33,7 +33,7 @@
   )
 }
 
-#' call system
+# call system
 .run_process <- function(executable, arguments, quiet) {
   cmd <- paste0("\"", executable, "\" ", arguments)
 
@@ -178,6 +178,7 @@ unrar <- function(
 
   subdir2extract <- basename(fs::path_ext_remove(file))
 
+  if(is.null(dest_dir)) dest_dir <- tempdir()
 
   # se o diretorio já existe --------------------------------------------------
   if(fs::dir_exists(dest_dir)){ # e.g. ~/Downloads
