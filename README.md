@@ -23,6 +23,13 @@ distributions’ package manager.
 
     $ sudo apt update && sudo apt install --assume-yes unrar # Ubuntu and Debian
 
+Windows users should install the [7-zip](https://www.7-zip.org/), a free
+software that can be easily installed from R using
+`installr::install.7zip()`.
+
+    install.packages("installr")
+    install.7zip()
+
 ## Installation
 
 You can install **`{lhmetools}`** from [GitHub](https://github.com/)
@@ -37,7 +44,7 @@ devtools::install_github("lhmet/lhmetools")
 
   - `unrar()`: extract files from a `rar` archive.
 
-  - `complete_dates()`: Complete missing data combinations leaving
+  - `complete_dates()`: complete missing data combinations leaving
     explicit missing dates.
 
 This is a basic example which shows you how to extract files:
