@@ -1,7 +1,10 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: r
-
+sudo: true
+dist: focal
+apt_packages:
+  - unrar
 r_packages:
   - covr
 
