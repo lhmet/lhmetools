@@ -22,7 +22,8 @@ Imports:
 Suggests: 
     testthat,
     covr,
-    microbenchmark
+    microbenchmark,
+    installr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
