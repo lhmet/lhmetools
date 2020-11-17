@@ -58,20 +58,5 @@ download.file(rarfile_url, dest_file, mode = 'wb')
 (extracted_files <- unrar(dest_file))
 ```
 
-# TO DO
-
-  - tests for `complete dates`
-
-  - example with `complete_dates()` in readme
-
-<!-- end list -->
-
-``` r
-# small dif
-if(requireNamespace("microbenchmark", quietly = TRUE)){
-  # add comparison tidyr::complete and lhmetools::complete_dates
-}
-```
-
 1.  It’s developed by [RARLAB](https://www.rarlab.com/download.htm) and
     made available in Linux and other Unix based operating systems.

@@ -44,7 +44,7 @@ available in Linux and other Unix based operating systems.
 
 You can install **`{lhmetools}`** from [GitHub](https://github.com/) with:
 
-``` r
+```r
 # install.packages("devtools")
 devtools::install_github("lhmet/lhmetools")
 ```
@@ -70,15 +70,3 @@ download.file(rarfile_url, dest_file, mode = 'wb')
 
 
 
-# TO DO
-
-- tests for `complete dates`
-
-- example with `complete_dates()` in readme
-
-```{r, eval = FALSE}
-# small dif
-if(requireNamespace("microbenchmark", quietly = TRUE)){
-  # add comparison tidyr::complete and lhmetools::complete_dates
-}
-```
