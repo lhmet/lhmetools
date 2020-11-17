@@ -41,7 +41,11 @@ test_that("test extraction of rar file in the folder of compressed file", {
 
   nfiles <- .count_files(output)
 
-  is_unrar_installed <- .check_unrar(quiet = TRUE)
+  is_unrar_installed <- ifelse(
+    checkmate::check_os("windows"),
+    file.exists(.check_7Zip()),
+    .check_unrar(quiet = TRUE)
+  )
   if (checkmate::test_false(is_unrar_installed)) {
     expect_equal(nfiles, 0)
     return(NULL)
@@ -70,7 +74,13 @@ test_that("test extraction of rar file in a arbitraty folder", {
 
   nfiles <- .count_files(output)
 
-  is_unrar_installed <- .check_unrar(quiet = TRUE)
+  is_unrar_installed <- ifelse(
+    checkmate::check_os("windows"),
+    file.exists(.check_7Zip()),
+    .check_unrar(quiet = TRUE)
+  )
+
+
   if (checkmate::test_false(is_unrar_installed)) {
     expect_equal(nfiles, 0)
     return(NULL)
@@ -96,13 +106,14 @@ test_that("test try overwriting a pre-existent non empty folder", {
 })
 
 
-test_that("test wrong output folder", {
+test_that("test empty output folder", {
   expect_error(
     unrar(
       file = rarfile,
-      dest_dir = "/someplace"
+      dest_dir = ""
     )
   )
+  #fs::dir_delete(dest_dir)
 })
 
 test_that("test folder instead of a file as input", {
