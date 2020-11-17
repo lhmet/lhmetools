@@ -35,7 +35,8 @@
 
 # call system
 .run_process <- function(executable, arguments, quiet) {
-  cmd <- paste0("\"", executable, "\" ", arguments)
+  cmd <- paste(executable, arguments)
+  cat(cmd, "\n")
 
   # print(cmd)
 
@@ -50,42 +51,61 @@
     invisible = FALSE
   )
 
+
   if (exit_code != 0) {
     message("This function require the 7-zip tool installed.")
-    message("You can install it typing on terminal 'installr::install.7zip'.")
+    message("You can install it typing on console 'installr::install.7zip'.")
     stop("Process returned error")
   }
   return(exit_code)
 }
 
 unrar_7zip <- function(file.rar, out.dir, overwrite, quiet = TRUE) {
+  # file.rar = rarfile; out.dir = dest_dir; overwrite = TRUE; quiet = TRUE
   # based on https://github.com/swish-climate-impact-assessment/awaptools/blob/master/R/ZipFunctions.R
-  z7path <- .check_7Zip()
+  #z7path <- normalizePath(.check_7Zip(), "/")
+  z7path <- fs::path(.check_7Zip())
+  checkmate::assert_file_exists(z7path)
+  file.rar <- fs::path(file.rar)
+  checkmate::assert_file_exists(file.rar)
+  out.dir <- fs::path(out.dir)
+  checkmate::assert_directory_exists(out.dir)
 
+  #"C:/Program Files (x86)/7-Zip/7z.exe" e "C:/Users/bitev/AppData/Local/Temp/RtmpWQCvGd/file40c4506833ec.rar" "-oC:/Users/bitev/AppData/Local/Temp/RtmpWQCvGd/file40c4506833ec"
+  # args <- system(
+  #   paste(
+  #   shQuote(z7path),
+  #   "e",
+  #   shQuote(file.rar),
+  #   " -y"
+  #   )
+  #   )
+
+  # args <- paste0(
+  #   "e ",
+  #   "\"", file.rar, "\" ",
+  #   "\"-o", out.dir, "\" ",
+  #   ""
+  # )
   args <- paste(
-    sep = "",
-    "e ",
-    "\"", file.rar, "\" ",
-    "\"-o", out.dir, "\" ",
-    ""
-  )
-
-  args_overwrite <- paste(
-    "e ",
-    "\"", file.rar, "\" ",
-    "\"-o", out.dir, "\" ",
-    # ""
-    "\"-y"
-  )
-
+    "e",
+    shQuote(file.rar),
+    shQuote(paste0("-o", out.dir))
+    )
+  args_overwrite <- paste(args, "-y")
   arguments <- ifelse(overwrite, args_overwrite, args)
-
-  out_call_7z <- .run_process(z7path, arguments, quiet)
+  exec <- shQuote(z7path)
+  out_call_7z <- .run_process(exec, arguments, quiet)
 
   # return extracted files
   extracted_files <- fs::dir_ls(out.dir, type = "file", recurse = TRUE)
-  normalizePath(extracted_files)
+
+  #normalizePath(extracted_files, winslash = "\\")
+  extracted_files
 }
+
+
+
 
 
 check_rar_file <- function(file.rar) {
@@ -175,8 +195,8 @@ unrar <- function(
                   dest_dir = fs::path_ext_remove(file),
                   overwrite = FALSE,
                   quiet = TRUE) {
-  # file <- dest_file; dest_dir <- "~/Downloads"; overwrite = TRUE; quiet = TRUE
-  # file <- dest_file; dest_dir <- fs::path_ext_remove(file); overwrite = TRUE; quiet = TRUE
+  # file <- rarfile; dest_dir <- "~/Downloads"; overwrite = TRUE; quiet = TRUE
+  # file <- rarfile; dest_dir <- fs::path_ext_remove(file); overwrite = TRUE; quiet = TRUE
   check_rar_file(file)
 
   subdir2extract <- basename(fs::path_ext_remove(file))
@@ -209,7 +229,12 @@ unrar <- function(
     # mas o dir um nível antes existir
     checkmate::assert_directory_exists(fs::path_dir(dest_dir))
     fs::dir_create(dest_dir)
+    if(checkmate::test_os("windows")){
+      file <- normalizePath(file, "\\")
+      dest_dir <- normalizePath(dest_dir, "\\")
+    }
     out <- unrar_file(file, dest_dir, overwrite, quiet)
+    #out <- unrar_file(normalizePath(file), dest_dir, overwrite, quiet)
     return(out)
   }
 
