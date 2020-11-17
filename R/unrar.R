@@ -84,7 +84,7 @@ unrar_7zip <- function(file.rar, out.dir, overwrite, quiet = TRUE) {
 
   # return extracted files
   extracted_files <- fs::dir_ls(out.dir, type = "file", recurse = TRUE)
-  extracted_files
+  normalizePath(extracted_files)
 }
 
 

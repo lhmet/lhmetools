@@ -67,6 +67,7 @@ download.file(rarfile_url, dest_file, mode = 'wb')
 <!-- end list -->
 
 ``` r
+# small dif
 if(requireNamespace("microbenchmark", quietly = TRUE)){
   # add comparison tidyr::complete and lhmetools::complete_dates
 }
