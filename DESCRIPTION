@@ -12,19 +12,21 @@ License: MIT + file LICENSE
 URL: https://github.com/lhmet/lhmetools
 Depends: 
     R (>= 4.0)
-SystemRequirements: unrar library version 5.61 or later (linux), 7-zip (windows)
 Imports: 
     assertthat,
     checkmate,
-    fs,
     data.table,
-    tibble,
-    stringr
+    fs,
+    lubridate,
+    stringr,
+    tibble
 Suggests: 
-    testthat,
     covr,
-    microbenchmark
+    microbenchmark,
+    testthat
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+SystemRequirements: unrar library version 5.61 or later (linux),
+    7-zip (windows)
