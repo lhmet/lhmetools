@@ -47,6 +47,8 @@ devtools::install_github("lhmet/lhmetools")
   - `complete_dates()`: complete missing data combinations leaving
     explicit missing dates.
 
+  - `dates_from_files()`: parse dates from file names.
+
 This is a basic example which shows you how to extract files:
 
 ``` r
