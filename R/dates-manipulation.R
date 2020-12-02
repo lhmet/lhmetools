@@ -1,3 +1,29 @@
+#' Extract dates from file names
+#'
+#' @param x charcter
+#' @param quietly logical. If TRUE, function evaluates without displaying
+#' customary messages.
+#'
+#' @return a vector of class Date
+#' @export
+#'
+#' @examples
+#' dates_from_files("MERGE_CPTEC_20201201.grib2")
+#' dates_from_files("brick-ETo-25km-19800101-20170731.nc")
+#'
+#' @family date manipulation
+dates_from_files <- function(x, quietly = TRUE) {
+  x %>%
+    fs::path_dir() %>%
+    stringr::str_extract_all("[0-9]{2,}") %>%
+    # gsub("[^0-9.-]+", "", .) %>%
+    unlist() %>%
+    as.integer() %>%
+    lubridate::ymd(., quiet = quietly) %>%
+    sort()
+}
+
+
 #' Complete a data frame with missing combination of variables (date and group)
 #'
 #' @param x data.frame with a column date
@@ -6,7 +32,7 @@
 #'
 #' @return tibble with a regular and constant time step
 #' @export
-#'
+#' @family date manipulation
 #' @examples
 #' if(TRUE){
 #'  dates_comp <- complete_dates(
