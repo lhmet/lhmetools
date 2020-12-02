@@ -18,7 +18,8 @@ Imports:
     checkmate,
     fs,
     data.table,
-    tibble
+    tibble,
+    stringr
 Suggests: 
     testthat,
     covr,

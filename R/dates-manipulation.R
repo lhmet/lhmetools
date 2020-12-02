@@ -13,14 +13,19 @@
 #'
 #' @family date manipulation
 dates_from_files <- function(x, quietly = TRUE) {
-  x %>%
-    fs::path_dir() %>%
-    stringr::str_extract_all("[0-9]{2,}") %>%
-    # gsub("[^0-9.-]+", "", .) %>%
-    unlist() %>%
-    as.integer() %>%
-    lubridate::ymd(., quiet = quietly) %>%
-    sort()
+  sort(
+    lubridate::ymd(
+      as.integer(
+        unlist(
+          stringr::str_extract_all(
+            fs::path_dir(x),
+            "[0-9]{2,}"
+          )
+        )
+      ),
+      quiet = quietly
+    )
+  )
 }
 
 
