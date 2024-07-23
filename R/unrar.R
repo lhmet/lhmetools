@@ -1,21 +1,40 @@
 # Check if unrar is installed on linux
 .check_unrar <- function(quiet) {
-  installed_unrar <- system(
-    "which unrar",
-    intern = FALSE,
-    ignore.stdout = quiet
-  )
 
-  is_unrar_installed <- installed_unrar == 0
-
-  if (checkmate::test_false(is_unrar_installed)) {
-    stop(
-      "This function require the unrar tool installed. \n",
-      "You can install it typing on terminal 'apt install unrar'."
+  if(checkmate::test_os("linux")){
+    installed_unrar <- system(
+      "which unrar",
+      intern = FALSE,
+      ignore.stdout = quiet
     )
+
+    is_unrar_installed <- installed_unrar == 0
+
+    if (checkmate::test_false(is_unrar_installed)) {
+      stop(
+        "This function require the unrar tool installed. \n",
+        "You can install it typing on terminal 'apt install unrar'."
+      )
+    }
+   return(is_unrar_installed)
   }
 
-  TRUE
+  if(checkmate::test_os("windows")){
+    path_7zip <- .check_7Zip()
+    installed_7zip <- file.exists(path_7zip)
+
+    if (checkmate::test_false(installed_7zip)) {
+      stop(
+        "This function require the 7Zip tool installed. \n",
+        "You can install it using the installr package: \n
+        'installr::install.7zip()'."
+      )
+    }
+    return(installed_7zip)
+  }
+
+  stop("This function is only suported for linux and windows.")
+
 }
 
 # Check if  7-Zip is installed on windows
