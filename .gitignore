@@ -4,3 +4,7 @@
 .Ruserdata
 .html
 *.html
+.Rdata
+.httr-oauth
+.DS_Store
+.quarto
