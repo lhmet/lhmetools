@@ -1,12 +1,9 @@
 Package: lhmetools
-Title: A Collection Of R Functions For Hydrometeorological Data
-    Analysis And Modelling
+Title: A Collection Of R Functions For Hydrometeorological Data Analysis
+    And Modelling
 Version: 0.1.1.9000
 Authors@R: 
-    person(given = "Jônatan",
-           family = "Tatsch",
-           role = c("aut", "cre"),
-           email = "lhmet@ufsm.br")
+    person("Jônatan", "Tatsch", , "lhmet@ufsm.br", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 URL: https://github.com/lhmet/lhmetools
@@ -17,16 +14,19 @@ Imports:
     checkmate,
     data.table,
     fs,
+    glue,
+    lifecycle,
     lubridate,
     stringr,
     tibble
 Suggests: 
     covr,
     microbenchmark,
-    testthat
+    testthat,
+    rlang
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
-SystemRequirements: unrar library version 5.61 or later (linux),
-    7-zip (windows)
+RoxygenNote: 7.3.2
+SystemRequirements: unrar library version 5.61 or later (linux), 7-zip
+    (windows)
