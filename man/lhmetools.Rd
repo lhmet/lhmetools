@@ -2,8 +2,8 @@
 % Please edit documentation in R/lhmetools-package.R
 \docType{package}
 \name{lhmetools}
-\alias{lhmetools}
 \alias{lhmetools-package}
+\alias{lhmetools}
 \title{lhmetools: convenience functions used in LHMET}
 \description{
 The goal of \pkg{lhmetools} is to bundle all generic functions frequently

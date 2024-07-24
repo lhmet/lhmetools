@@ -4,13 +4,16 @@
 \alias{dates_from_files}
 \title{Extract dates from file names}
 \usage{
-dates_from_files(x, quietly = TRUE)
+dates_from_files(x, quietly = TRUE, sort_dates = FALSE)
 }
 \arguments{
 \item{x}{charcter}
 
 \item{quietly}{logical. If TRUE, function evaluates without displaying
 customary messages.}
+
+\item{sort_dates}{logical. Should the results of the dates be sorted
+chronologically?}
 }
 \value{
 a vector of class Date

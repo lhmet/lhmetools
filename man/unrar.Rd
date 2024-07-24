@@ -40,8 +40,11 @@ have \code{unrar} Linux library installed. You can install it with
 \examples{
 \dontrun{
 if (interactive()) {
-  rarfile_url <- "https://ndownloader.figshare.com/files/13366451"
-  dest_file <- file.path(tempdir(), paste0(basename(rarfile_url), ".rar"))
+
+  rarfile_url <- paste0("https://www.dropbox.com/scl/fi/63eimy6j2ok1q3vf11zs4/",
+  "some-file.rar?rlkey=jhveob9ysl1ivy3alnt68c61g&st=dvt43nb1&dl=1")
+
+  dest_file <- file.path(tempdir(), strsplit(basename(rarfile_url), "\\\\?")[[1]][[1]])
   #dest_file <- tempfile(fileext = ".rar")
   download.file(rarfile_url, dest_file, mode = "wb")
   extracted_files <- unrar(dest_file)
