@@ -1,7 +1,7 @@
 context("extract rar file")
 
 .example_file <- function() {
-  rarfile_url <- "https://ndownloader.figshare.com/files/13366451"
+  rarfile_url <- "https://www.dropbox.com/scl/fi/63eimy6j2ok1q3vf11zs4/some-file.rar?rlkey=jhveob9ysl1ivy3alnt68c61g&st=dvt43nb1&dl=1"
   dest_file <- tempfile(fileext = ".rar")
   download.file(rarfile_url, dest_file, mode = "wb")
   return(dest_file)
