@@ -3,6 +3,8 @@
 #' @param x charcter
 #' @param quietly logical. If TRUE, function evaluates without displaying
 #' customary messages.
+#' @param sort_dates logical. Should the results of the dates be sorted
+#' chronologically?
 #'
 #' @return a vector of class Date
 #' @export
@@ -12,20 +14,25 @@
 #' dates_from_files("brick-ETo-25km-19800101-20170731.nc")
 #'
 #' @family date manipulation
-dates_from_files <- function(x, quietly = TRUE) {
-  sort(
-    lubridate::ymd(
+dates_from_files <- function(x, quietly = TRUE, sort_dates = FALSE) {
+
+  dts <- lubridate::ymd(
       as.integer(
         unlist(
           stringr::str_extract_all(
-            fs::path_dir(x),
-            "[0-9]{2,}"
+            fs::path_file(x),
+            "[0-9]{4,}"
           )
         )
       ),
       quiet = quietly
     )
-  )
+
+  if(sort_dates) {
+    return(sort(dts))
+  }
+
+  dts
 }
 
 
@@ -34,7 +41,6 @@ dates_from_files <- function(x, quietly = TRUE) {
 #' @param x data.frame with a column date
 #' @param group character vector of group variables
 #' @param time_step character scalar (e.g., "hours", "days", "months")
-#'
 #' @return tibble with a regular and constant time step
 #' @export
 #' @family date manipulation
