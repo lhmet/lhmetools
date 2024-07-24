@@ -2,6 +2,7 @@
 
 export(complete_dates)
 export(dates_from_files)
+export(str_sanitize)
 export(unrar)
 import(data.table)
 importFrom(assertthat,assert_that)
@@ -12,3 +13,5 @@ importFrom(checkmate,assert_true)
 importFrom(checkmate,test_path_for_output)
 importFrom(fs,dir_ls)
 importFrom(fs,path_ext_remove)
+importFrom(glue,glue)
+importFrom(lifecycle,deprecated)
